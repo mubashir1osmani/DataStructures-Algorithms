@@ -76,3 +76,14 @@
         ((not (typep (car lst) 'list)) (sum-deep-list-int (cdr lst) acc))
         ;; the first element of the list is a list, call the function with the rest of the list and add the sum of all elements to our accumulator
         (t (sum-deep-list-int (cdr lst) (+ acc (sum-deep-list-int (car lst)))))))
+
+
+
+(defun f (r x)
+  (if (>= x 0)
+      (progn
+        (print r)
+        (f r (- x 1))))
+  (print " "))
+
+

@@ -16,41 +16,19 @@ linear probing leads to clustering
 both tables are 50% full, but one is evenly filled and the other consecutively
 would take O(n) - consecutive, O(1) - evenly
 
-
 "
+; from week 9 lecture
 
+(defparameter *size* 16)
 
-(defparameter *table-size* 10)
+(defun ht-create (kvs &key (test 'eql)) ;optional values here is test (comparative operator)
+  
+  "creates a hash table object, and adds the key value pairs."
 
-(defstruct my-hash-table
-  (table (make-array *table-size* :initial-element nil))
-  (count 0))
+  (let ((res (make-ht :array (make-array *size* :initial-element nil)
+                      :comp test)))
+    (loop :for (k v) :in kvs :do
+      (ht-add k v res))
+    res))
 
-(defun my-hash-function (key)
-  (mod (sxhash key) *table-size*))
-
-(defun find-empty-slot (hash-table key)
-  (let* ((hash (my-hash-function key))
-         (index hash))
-    (loop
-      (when (eq (aref (my-hash-table-table hash-table) index) nil)
-        (return index))
-      (when (eq (aref (my-hash-table-table hash-table) index) key)
-        (return index))
-      (setf index (mod (1+ index) *table-size*)))))
-
-(defun insert-into-hash-table (hash-table key)
-  (let ((slot (find-empty-slot hash-table key)))
-    (setf (aref (my-hash-table-table hash-table) slot) key)
-    (incf (my-hash-table-count hash-table))))
-
-(defun contains-key (hash-table key)
-  (let* ((hash (my-hash-function key))
-         (index hash))
-    (loop
-      (when (eq (aref (my-hash-table-table hash-table) index) key)
-        (return t))
-      (when (eq (aref (my-hash-table-table hash-table) index) nil)
-        (return nil))
-      (setf index (mod (1+ index) *table-size*)))))
-
+;(defun ht-
