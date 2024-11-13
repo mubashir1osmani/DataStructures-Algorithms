@@ -1,0 +1,23 @@
+; lecture 2 week 10
+
+
+(defun post-dfs (fn node)
+  (dolist (child (children node))
+    (post-dfs fn child))
+  (funcall fn (key node)))
+
+                                        ; children first - then root nodes
+
+
+; breadth first traversal
+;        
+
+
+                                        ; (defun
+
+
+"          <expr>
+           / |  \
+      <expr> <op>  <expr>
+      /       |       \
+    
