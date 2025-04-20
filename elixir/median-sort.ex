@@ -1,3 +1,0 @@
-defmodule MedianSort do
-
-end
