@@ -1,3 +1,7 @@
+import qualified Data.Map.Strict as Map
+import Data.Function(on)
+import Data.List (sortBy)
+
 -- some blind 75
 -- median of sorted arrays
 median_sorted :: Ord a => [a] -> [a] -> a
@@ -11,6 +15,17 @@ median_sorted xy yz = merged !! mid
 -- merge all sub lists then sort?
 merge_k :: Ord a => [[a]] -> [a]
 merge_k = sort . concat
+
+-- top k frequent elements
+
+topKFrequent :: Ord a => [a] -> Int -> [a]
+topKFrequent xs k =
+    take k
+  . map fst
+  . sortBy (flip compare `on` snd)
+  . Map.toList
+  $ Map.fromListWith (+) [(x, 1 :: Int) | x <- xs]
+
 
 -- quicksort global
 sort :: Ord a => [a] -> [a]
@@ -39,4 +54,8 @@ two_sum xs target =
        , x + y == target
        ] of
     (pair:_) -> Just pair
-    []       -> Nothing 
+    []       -> Nothing
+
+
+
+ 
