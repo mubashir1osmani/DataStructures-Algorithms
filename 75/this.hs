@@ -1,6 +1,7 @@
 import qualified Data.Map.Strict as Map
 import Data.Function(on)
 import Data.List (sortBy)
+import Data.List (zipWith)
 
 -- some blind 75
 -- median of sorted arrays
@@ -57,5 +58,22 @@ two_sum xs target =
     []       -> Nothing
 
 
+-- candy
+-- take a ratings list -> each child is given candy based on ratings -> 
+-- if rating[i] > rating[i+1] then rating[i] = candy[i] = 2 && ratings[i+1] = candy[i+1] = 1
+-- [][] [][] [][ ][]
 
+candy :: [Int] -> Int
+candy ratings = sum $ zipWith max left right
+ where
+    n = length ratings
+    left = forward ratings
+    right = reverse (forward (reverse ratings))
+
+    forward :: [Int] -> [Int]
+    forward xs = snd $ foldl step (head xs, [1]) (zip (tail xs) [1..])
+      where
+        step (prevVal, acc) (currVal, i)
+          | currVal > ratings !! (i - 1) = (currVal, acc ++ [last acc + 1])
+          | otherwise                    = (currVal, acc ++ [1])
  
